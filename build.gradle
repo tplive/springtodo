@@ -24,7 +24,7 @@ repositories {
 
 
 dependencies {
-	compile 'joda-time:joda-time:2.9.9'
+	compile('joda-time:joda-time:2.9.9')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile("org.springframework.boot:spring-boot-devtools")
 	testCompile('org.springframework.boot:spring-boot-starter-test')

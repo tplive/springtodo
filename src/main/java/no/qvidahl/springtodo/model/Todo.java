@@ -8,6 +8,14 @@ public class Todo {
     private String text;
     private String start, end;
 
+    public Todo() {
+    }
+
+    public Todo(String text, String start, String end) {
+        this.text = text;
+        this.start = start;
+        this.end = end;
+    }
 
     public String getText() {
         return text;

@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
     <title>Total Todo</title>
 </head>
 <body>
 
 <h1>Total Todo</h1>
 
-<form action="/save">
-    <input type="text" name="task" />
+<form action="/save" method="post">
+    <input type="text" name="text" />
     <input type="date" name="start" />
     <input type="date" name="end" />
-    <input type="submit" onclick="submitForm()"/>
+    <input type="submit" onclick="send()"/>
 </form>
 
-<ul th:each="p : ${list}">
-    <li th:text="$p.text"/>
+<ul id="todos" th:each="p : ${todoList}">
+    <li th:text="${p.text}"/>
 </ul>
+<p><a href="#" onclick="refreshList()">Refresh list</a> </p>
 </body>
 <script>
     /*<![CDATA[*/
@@ -34,7 +35,7 @@
         }
         xmlHttp.open("POST", "/save", true);
         xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xmlHttp.send("text="+text+"&start="+start"&end="+end);
+        xmlHttp.send("text="+text+"&start="+start+"&end="+end);
     }
     function refreshList(){
         var xmlHttp = new XMLHttpRequest();
