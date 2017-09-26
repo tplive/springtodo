@@ -16,48 +16,45 @@ import java.util.Map;
 @Controller
 public final class TodoController {
 
-
-    private List<Todo> todoList = new ArrayList<>();
-
     private static final Logger log = Logger.getLogger(TodoController.class);
 
-    public TodoController() {
-        todoList.add(new Todo("Kjøp brød", String.format("%s", new Date()), String.format("%s", new Date() )));
-
-    }
+    // Todolist, non-persistent.. ;)
+    private ArrayList<Todo> todoRepo = new ArrayList<>();
 
     @RequestMapping(path="/", method = RequestMethod.GET)
-    public ModelAndView list(Model model) {
+    public String index(Model model) {
 
-        model.addAttribute(todoList);
-        model.addAttribute(new Todo());
-        return new ModelAndView("list", "todo", model);
+        // Init todolist with a single item:
+        todoRepo.add(new Todo("Kjøp brød", String.format("%s", new Date()), String.format("%s", new Date() )));
+        model.addAttribute("newItem", new Todo());
+        model.addAttribute("itemList", new TodoListViewModel(todoRepo));
+        return "index";
     }
 
     @RequestMapping(path = "/save", method = RequestMethod.POST)
-    public ModelAndView list(Todo todo, Model model) {
+    public String addTodo(@ModelAttribute Todo item) {
 
-        log.info("Ny todo: " + todo.getText());
-
-        todoList.add(todo);
+        Todo todo = new Todo(item.getText(), "start", "end");
+        log.info(String.format("Ny todo: %s, %s - %s", item.getText(), item.getStart(), item.getEnd()));
+        todoRepo.add(todo);
 
         // Redirect to root view where we show the updated list
-        return new ModelAndView(new RedirectView("/"));
+        return "redirect:/";
     }
 
     @RequestMapping(path = "/todo/", method = RequestMethod.GET)
     public void todo(@RequestParam("id") Integer id, Model model) {
-        model.addAttribute(todoList.get(id));
+        model.addAttribute(todoRepo.get(id));
 
-        Todo todo = todoList.get(id);
+        Todo todo = todoRepo.get(id);
         model.addAttribute(todo);
         log.info("Todo text is: " + todo.getText());
     }
 
-    @RequestMapping(path = "/list/json", method = RequestMethod.GET)
-    public List<Todo> json() {
+    @RequestMapping(path = "/index/json", method = RequestMethod.GET)
+    public @ResponseBody List<Todo> json() {
 
-        return todoList;
+        return todoRepo;
     }
 
 
