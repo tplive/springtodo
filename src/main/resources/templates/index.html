@@ -34,12 +34,15 @@
     <input type="date" id="endInput" />
     <input type="submit" onclick="send()"/>
 </form>
-
-<ul id="todos" th:each="p : ${todoList}">
-    <li th:text="${p.text}"/>
-</ul>
-
-<table id="todoItems">
+<!--
+<table>
+    <tr th:each="var : ${#vars}">
+        <td th:text="${var.key}"></td>
+        <td th:text="${var.value}"></td>
+    </tr>
+</table>
+-->
+<table>
     <thead>
     <tr>
         <th>Text</th>
@@ -48,10 +51,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="item : ${todoList}">
-        <td th:text="${item.text">Item_name</td>
-        <td th:text="${item.start">Item_name</td>
-        <td th:text="${item.end">Item_name</td>
+    <tr th:each="item,i : *{todoList}">
+        <td th:text="${item.text}">Item_name</td>
+        <td th:text="${item.start}">Item_name</td>
+        <td th:text="${item.end}">Item_name</td>
     </tr>
     </tbody>
 </table>

@@ -22,13 +22,17 @@ public final class TodoController {
     private ArrayList<Todo> todoRepo = new ArrayList<>();
 
     @RequestMapping(path="/", method = RequestMethod.GET)
-    public String index(Model model) {
+    public ModelAndView index(Model model) {
 
-        // Init todolist with a single item:
-        todoRepo.add(new Todo("Kjøp brød", String.format("%s", new Date()), String.format("%s", new Date() )));
+        // Init todolist with a few items:
+        if (todoRepo.size() == 0 ) {
+            todoRepo.add(new Todo("Kjøp brød", String.format("%s", new Date()), String.format("%s", new Date())));
+            todoRepo.add(new Todo("Kjøp melk", String.format("%s", new Date()), String.format("%s", new Date())));
+        }
+
         model.addAttribute("newItem", new Todo());
-        model.addAttribute("itemList", new TodoListViewModel(todoRepo));
-        return "index";
+        model.addAttribute("todoList", todoRepo);
+        return new ModelAndView("index", "todos", model);
     }
 
     @RequestMapping(path = "/save", method = RequestMethod.POST)
