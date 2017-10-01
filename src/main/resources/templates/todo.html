@@ -29,14 +29,35 @@
 <div class="container">
 
     <h1 th:text="${todo.text}">Text</h1>
-
     <form id="editTodo" action="/">
-        <input type="text" id="textInput" th:value="${todo.text}"/>
-        <input type="date" id="startInput" th:value="${todo.start}"/>
-        <input type="date" id="endInput" th:value="${todo.end}"/>
-        <input type="checkbox" id="isDone" th:value="${todo.done}"/>
-        <input type="submit" value="Oppdater" th:onclick="@{ update({id}) (id=${param.id}) }"/>
-        <input type="submit" value="Slett" th:onclick="@{ /delete/?id={id} (id=${param.id}) }"/>
+    <table class="table table-hover" id="todos">
+        <thead>
+        <tr>
+            <th>Text</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Done?</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td><input type="text" id="textInput" th:value="${todo.text}"/></td>
+            <td><input type="date" id="startInput" th:value="${todo.start}"/></td>
+            <td><input type="date" id="endInput" th:value="${todo.end}"/></td>
+            <td>
+                <input type="checkbox" th:if="${todo.done} == true" checked="checked" id="isDone" th:value="${todo.done}"/>
+                <input type="checkbox" th:if="${todo.done} == false" id="isDone" th:value="${todo.done}"/>
+            </td>
+            <td>
+                <input type="submit" value="Oppdater" th:onclick="@{ update({id}) (id=${param.id}) }"/>
+                <input type="submit" value="Slett" th:onclick="@{ del({id}) (id=${param.id}) }"/>
+            </td>
+            <td></td>
+        </tr>
+        </thead>
+    </table>
+
+
+
     </form>
 </div>
 <!-- Load jQuery before Bootstrap -->
@@ -49,44 +70,8 @@
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
 
-<script>
-    /*<![CDATA[*/
+<script type="text/javascript" th:src="@{/todo_scripts.js}"/>
 
-    function del(x) {
-
-        var url = "/delete/?id=" + x;
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = function () {
-            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-                console.log();
-            }
-        }
-        xmlHttp.open("GET", url, true);
-        //xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        console.log("URL: " + url);
-    }
-
-
-    function update(x) {
-
-        var url = "/update/?id=" + x;
-        var text = document.getElementById("textInput").value;
-        var start = document.getElementById("startInput").value;
-        var end = document.getElementById("endInput").value;
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = function () {
-            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-                console.log();
-            }
-        }
-        xmlHttp.open("PUT", url, true);
-        xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xmlHttp.send("text=" + text + "&start=" + start + "&end=" + end);
-        console.log("URL: " + url);
-    }
-
-    /*]]>*/
-</script>
 
 </body>
 </html>

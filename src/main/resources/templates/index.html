@@ -16,6 +16,7 @@
 
 
     <title>Total Todo</title>
+
 </head>
 
 <body style="padding-top:100px;">
@@ -30,12 +31,6 @@
 <div class="container">
     <h1>Total Todo</h1>
 
-    <form id="todoForm">
-        <input type="text" id="textInput"/>
-        <input type="date" id="startInput"/>
-        <input type="date" id="endInput"/>
-        <input type="submit" value="Lagre" onclick="send()"/>
-    </form>
 
     <table class="table table-hover" id="todos">
         <thead>
@@ -44,7 +39,14 @@
             <th>Start</th>
             <th>End</th>
             <th>Done?</th>
-            <th>Action</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td><input type="text" id="textInput"/></td>
+            <td><input type="date" id="startInput"/></td>
+            <td><input type="date" id="endInput"/></td>
+            <td><input type="submit" value="Lagre" onclick="send()"/></td>
+            <td></td>
         </tr>
         </thead>
         <tbody>
@@ -57,7 +59,7 @@
                      src="checked-checkbox-xxl.png"
                      height="16" width="16"/>
             </td>
-            <td><a th:href="@{/todo/(id=${i.index})}">Open</a></td>
+            <td><a th:href="@{/todo/(id=${i.index})}"></a></td>
         </tr>
         </tbody>
     </table>
@@ -74,67 +76,7 @@
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
 
-<script>
-    /*<![CDATA[*/
-
-
-    function send() {
-        // AJAX KODE HER
-        var text = document.getElementById("textInput").value;
-        var start = document.getElementById("startInput").value;
-        var end = document.getElementById("endInput").value;
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = function () {
-            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-                console.log();
-            }
-        }
-        xmlHttp.open("POST", "/save", true);
-        xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xmlHttp.send("text=" + text + "&start=" + start + "&end=" + end);
-    }
-
-    function refreshList() {
-        var data = $.getJSON("/index/json", function (data) {
-
-            var tr;
-            $.each(data, function (i, val) {
-
-                console.log(i.name);
-                tr = $('<tr/>');
-                tr.append('<td>' + data.name + '</td>');
-                tr.append('<td>' + data.start + '</td>');
-                tr.append('<td>' + data.end + '</td>');
-            });
-
-
-        });
-
-    }
-    $(document).ready(function () {
-        var now = new Date();
-
-        var day = ("0" + now.getDate()).slice(-2);
-        var month = ("0" + (now.getMonth() + 1)).slice(-2);
-
-        var today = now.getFullYear() + "-" + (month) + "-" + (day);
-
-
-        $('#startInput').val(today);
-        $('#endInput').val(today);
-
-        $('#todos tr').click(function() {
-            var href = $(this).find("a").attr("href");
-            console.log(href);
-            if(href) {
-                window.location = href;
-            }
-        });
-
-    });
-
-    /*]]>*/
-</script>
+<script type="text/javascript" th:src="@{/todo_scripts.js}"/>
 </body>
 
 </html>
