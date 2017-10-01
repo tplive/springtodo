@@ -46,4 +46,13 @@ public class Todo {
         this.end = end;
     }
 
+    public Boolean isDone() {
+        return done;
+    }
+
+    public Boolean getDone() {
+        return done;
+    }
+
+
 }

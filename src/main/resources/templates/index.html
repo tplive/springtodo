@@ -28,26 +28,23 @@
     </div>
 </div>
 
+<h1>Total Todo</h1>
+
 <form id="todoForm">
     <input type="text" id="textInput" />
-    <input type="date" id="startInput" />
-    <input type="date" id="endInput" />
+    <input type="text" id="startInput" />
+    <input type="text" id="endInput" />
     <input type="submit" value="Lagre"  onclick="send()"/>
 </form>
-<!--
-<table>
-    <tr th:each="var : ${#vars}">
-        <td th:text="${var.key}"></td>
-        <td th:text="${var.value}"></td>
-    </tr>
-</table>
--->
-<table id="todos">
+
+<table class="table table-hover" id="todos">
     <thead>
     <tr>
         <th>Text</th>
         <th>Start</th>
         <th>End</th>
+        <th>Done?</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -55,6 +52,11 @@
         <td th:text="${item.text}">Item_name</td>
         <td th:text="${item.start}">Item_name</td>
         <td th:text="${item.end}">Item_name</td>
+        <td>
+            <img th:if="${item.done} != false"
+                src="checked-checkbox-xxl.png"
+                height="16" width="16"/>
+        </td>
         <td><a th:href="@{/todo/(id=${i.index})}">Item</a></td>
     </tr>
     </tbody>
@@ -73,6 +75,11 @@
 
 <script>
     /*<![CDATA[*/
+
+    $("#startInput").datepicker().datepicker("setDate", new Date());
+    $("#endInput").datepicker().datepicker("setDate", new Date());
+
+
     function send(){
         // AJAX KODE HER
         var text = document.getElementById("textInput").value;

@@ -27,8 +27,8 @@ public final class TodoController {
 
         // Init todolist with a few items:
         if (todoRepo.size() == 0 ) {
-            todoRepo.add(new Todo("Kjøp brød", String.format("%s", new Date()), String.format("%s", new Date())));
-            todoRepo.add(new Todo("Kjøp melk", String.format("%s", new Date()), String.format("%s", new Date())));
+            todoRepo.add(new Todo("Kjøp brød", "2017-09-29", "2017-10-02"));
+            todoRepo.add(new Todo("Kjøp melk", "2017-10-01", "2017-10-05"));
         }
 
         model.addAttribute("newItem", new Todo());
@@ -39,7 +39,7 @@ public final class TodoController {
     @RequestMapping(path = "/save", method = RequestMethod.POST)
     public String addTodo(@ModelAttribute Todo item) {
 
-        Todo todo = new Todo(item.getText(), "start", "end");
+        Todo todo = new Todo(item.getText(), item.getStart(), item.getEnd());
         log.info(String.format("Ny todo: %s, %s - %s", item.getText(), item.getStart(), item.getEnd()));
         todoRepo.add(todo);
 
@@ -47,15 +47,16 @@ public final class TodoController {
         return "redirect:/";
     }
 
-    @RequestMapping(path = "/update/", method = RequestMethod.POST)
+    @RequestMapping(path = "/update/", method = RequestMethod.PUT)
     public String updateTodo(@RequestParam("id") int id, @ModelAttribute Todo item) {
 
         todoRepo.set(id, item);
         return "redirect:/";
     }
-    @RequestMapping(path = "/delete/{id}", method = RequestMethod.DELETE)
-    public String deleteTodo(@PathVariable("id") int id) {
+    @RequestMapping(path = "/delete/", method = RequestMethod.GET)
+    public String deleteTodo(@RequestParam("id") int id) {
 
+        log.info("Delete object " + todoRepo.get(id).getText() + "ID: " + id);
         todoRepo.remove(id);
         return "redirect:/";
     }
@@ -66,7 +67,6 @@ public final class TodoController {
         model.addAttribute(todoRepo.get(id));
         Todo todo = todoRepo.get(id);
         model.addAttribute(todo);
-        log.info("Todo text is: " + todo.getText());
         return new ModelAndView("todo", "item", model);
     }
 
