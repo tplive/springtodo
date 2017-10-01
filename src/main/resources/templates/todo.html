@@ -9,13 +9,12 @@
 
 <h1 th:text="${todo.text}">Text</h1>
 
-<form id="editTodo">
+<form id="editTodo" action="">
     <input type="text" id="textInput" th:value="${todo.text}" />
     <input type="date" id="startInput" th:value="${todo.start}" />
     <input type="date" id="endInput" th:value="${todo.end}" />
-    <input type="submit" value="Oppdater" th:onclick="@{/update/{id}(id=${param.id})}"/>
+    <input type="submit" value="Oppdater" th:onclick="@{ update({iden}) (iden=${param.id}) }"/>
     <input type="submit" value="Slett" th:onclick="@{/delete/{id}(id=${param.id})}"/>
-    <!--<td><a th:href="@{/todo/(id=${i.index})}">Item</a></td>-->
 </form>
 
 <h3>Text</h3>
@@ -25,5 +24,26 @@
 <h3>End date</h3>
 <p th:text="${todo.end}"></p>
 <p><a href="/">Back</a></p>
+
+<script>
+    /*<![CDATA[*/
+    function update(x){
+
+        var url = "/update/" + x;
+        var text = document.getElementById("textInput").value;
+        var start = document.getElementById("startInput").value;
+        var end = document.getElementById("endInput").value;
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function(){
+            if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+                console.log();
+            }
+        }
+        xmlHttp.open("POST", url, true);
+        xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlHttp.send("text=" + text + "&start=" + start + "&end=" + end);
+    }
+    /*]]>*/
+</script>
 </body>
 </html>

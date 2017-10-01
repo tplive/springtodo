@@ -45,15 +45,15 @@ public final class TodoController {
         // Redirect to root view where we show the updated list
         return "redirect:/";
     }
-
+    // Her bruker vi PathVariable
     @RequestMapping(path = "/update/{id}", method = RequestMethod.POST)
-    public String updateTodo(@RequestParam("id") Integer id, @ModelAttribute Todo item) {
+    public String updateTodo(@PathVariable("id") int id, @ModelAttribute Todo item) {
 
         todoRepo.set(id, item);
 
         return "redirect:/";
     }
-
+    // Her bruker vi RequestParam
     @RequestMapping(path = "/todo/", method = RequestMethod.GET)
     public ModelAndView todo(@RequestParam("id") Integer id, Model model) {
         model.addAttribute(todoRepo.get(id));
