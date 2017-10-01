@@ -26,17 +26,19 @@
     </div>
 </div>
 
-<h1 th:text="${todo.text}">Text</h1>
+<div class="container">
 
-<form id="editTodo" action="/">
-    <input type="text" id="textInput" th:value="${todo.text}" />
-    <input type="date" id="startInput" th:value="${todo.start}" />
-    <input type="date" id="endInput" th:value="${todo.end}" />
-    <input type="checkbox" id="isDone" th:value="${todo.done}" />
-    <input type="submit" value="Oppdater" th:onclick="@{ update({id}) (id=${param.id}) }"/>
-    <input type="submit" value="Slett" th:onclick="@{ /delete/?id={id} (id=${param.id}) }"/>
-</form>
+    <h1 th:text="${todo.text}">Text</h1>
 
+    <form id="editTodo" action="/">
+        <input type="text" id="textInput" th:value="${todo.text}"/>
+        <input type="date" id="startInput" th:value="${todo.start}"/>
+        <input type="date" id="endInput" th:value="${todo.end}"/>
+        <input type="checkbox" id="isDone" th:value="${todo.done}"/>
+        <input type="submit" value="Oppdater" th:onclick="@{ update({id}) (id=${param.id}) }"/>
+        <input type="submit" value="Slett" th:onclick="@{ /delete/?id={id} (id=${param.id}) }"/>
+    </form>
+</div>
 <!-- Load jQuery before Bootstrap -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"
         integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -54,8 +56,8 @@
 
         var url = "/delete/?id=" + x;
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = function(){
-            if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
                 console.log();
             }
         }
@@ -65,15 +67,15 @@
     }
 
 
-    function update(x){
+    function update(x) {
 
         var url = "/update/?id=" + x;
         var text = document.getElementById("textInput").value;
         var start = document.getElementById("startInput").value;
         var end = document.getElementById("endInput").value;
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = function(){
-            if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
                 console.log();
             }
         }
@@ -82,6 +84,7 @@
         xmlHttp.send("text=" + text + "&start=" + start + "&end=" + end);
         console.log("URL: " + url);
     }
+
     /*]]>*/
 </script>
 
