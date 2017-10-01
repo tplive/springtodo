@@ -8,12 +8,22 @@
 <body>
 
 <h1 th:text="${todo.text}">Text</h1>
+
+<form id="editTodo">
+    <input type="text" id="textInput" th:value="${todo.text}" />
+    <input type="date" id="startInput" th:value="${todo.start}" />
+    <input type="date" id="endInput" th:value="${todo.end}" />
+    <input type="submit" value="Oppdater" th:onclick="@{/update/{id}(id=${param.id})}"/>
+    <input type="submit" value="Slett" th:onclick="@{/delete/{id}(id=${param.id})}"/>
+    <!--<td><a th:href="@{/todo/(id=${i.index})}">Item</a></td>-->
+</form>
+
 <h3>Text</h3>
 <p th:text="${todo.text}">text</p>
 <h3>Start date</h3>
 <p th:text="${todo.start}"></p>
 <h3>End date</h3>
 <p th:text="${todo.end}"></p>
-<p><a href="list.do">Back</a></p>
+<p><a href="/">Back</a></p>
 </body>
 </html>

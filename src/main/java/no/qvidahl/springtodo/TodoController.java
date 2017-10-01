@@ -46,6 +46,14 @@ public final class TodoController {
         return "redirect:/";
     }
 
+    @RequestMapping(path = "/update/{id}", method = RequestMethod.POST)
+    public String updateTodo(@RequestParam("id") Integer id, @ModelAttribute Todo item) {
+
+        todoRepo.set(id, item);
+
+        return "redirect:/";
+    }
+
     @RequestMapping(path = "/todo/", method = RequestMethod.GET)
     public ModelAndView todo(@RequestParam("id") Integer id, Model model) {
         model.addAttribute(todoRepo.get(id));
