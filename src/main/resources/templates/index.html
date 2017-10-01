@@ -84,6 +84,7 @@
                 console.log();
             }
         }
+        console.log("Saving: " + text);
         xmlHttp.open("POST", "/save", true);
         xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xmlHttp.send("text=" + text + "&start=" + start + "&end=" + end);

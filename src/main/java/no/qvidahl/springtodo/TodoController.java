@@ -19,6 +19,7 @@ public final class TodoController {
     private static final Logger log = Logger.getLogger(TodoController.class);
 
     // Todolist, non-persistent.. ;)
+
     private ArrayList<Todo> todoRepo = new ArrayList<>();
 
     @RequestMapping(path="/", method = RequestMethod.GET)
@@ -45,24 +46,30 @@ public final class TodoController {
         // Redirect to root view where we show the updated list
         return "redirect:/";
     }
-    // Her bruker vi PathVariable
-    @RequestMapping(path = "/update/{id}", method = RequestMethod.POST)
-    public String updateTodo(@PathVariable("id") int id, @ModelAttribute Todo item) {
+
+    @RequestMapping(path = "/update/", method = RequestMethod.POST)
+    public String updateTodo(@RequestParam("id") int id, @ModelAttribute Todo item) {
 
         todoRepo.set(id, item);
-
         return "redirect:/";
     }
-    // Her bruker vi RequestParam
-    @RequestMapping(path = "/todo/", method = RequestMethod.GET)
-    public ModelAndView todo(@RequestParam("id") Integer id, Model model) {
-        model.addAttribute(todoRepo.get(id));
+    @RequestMapping(path = "/delete/{id}", method = RequestMethod.DELETE)
+    public String deleteTodo(@PathVariable("id") int id) {
 
+        todoRepo.remove(id);
+        return "redirect:/";
+    }
+
+    @RequestMapping(path = "/todo/", method = RequestMethod.GET)
+    public ModelAndView todo(@RequestParam("id") int id, Model model) {
+
+        model.addAttribute(todoRepo.get(id));
         Todo todo = todoRepo.get(id);
         model.addAttribute(todo);
         log.info("Todo text is: " + todo.getText());
         return new ModelAndView("todo", "item", model);
     }
+
 
     @RequestMapping(path = "/index/json", method = RequestMethod.GET)
     public @ResponseBody List<Todo> json() {
