@@ -47,12 +47,13 @@ public final class TodoController {
     }
 
     @RequestMapping(path = "/todo/", method = RequestMethod.GET)
-    public void todo(@RequestParam("id") Integer id, Model model) {
+    public ModelAndView todo(@RequestParam("id") Integer id, Model model) {
         model.addAttribute(todoRepo.get(id));
 
         Todo todo = todoRepo.get(id);
         model.addAttribute(todo);
         log.info("Todo text is: " + todo.getText());
+        return new ModelAndView("todo", "item", model);
     }
 
     @RequestMapping(path = "/index/json", method = RequestMethod.GET)

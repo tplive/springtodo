@@ -2,11 +2,14 @@ package no.qvidahl.springtodo.model;
 
 import org.springframework.stereotype.Repository;
 
+import java.time.Clock;
+
 @Repository
 public class Todo {
 
     private String text;
     private String start, end;
+    private Boolean done;
 
 
     public Todo() {
@@ -16,6 +19,7 @@ public class Todo {
         this.text = text;
         this.start = start;
         this.end = end;
+        this.done = false;
     }
 
     public String getText() {

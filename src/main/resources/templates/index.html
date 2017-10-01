@@ -42,7 +42,7 @@
     </tr>
 </table>
 -->
-<table>
+<table id="todos">
     <thead>
     <tr>
         <th>Text</th>
@@ -55,6 +55,7 @@
         <td th:text="${item.text}">Item_name</td>
         <td th:text="${item.start}">Item_name</td>
         <td th:text="${item.end}">Item_name</td>
+        <td><a th:href="@{/todo/(id=${i.index})}">Item</a></td>
     </tr>
     </tbody>
 </table>
@@ -88,22 +89,21 @@
         xmlHttp.send("text="+text+"&start="+start+"&end="+end);
     }
     function refreshList(){
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = function(){
-            if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
-                console.log(xmlHttp.responseText);
-                json = JSON.parse(xmlHttp.responseText);
-                json.forEach(function(entry){
-                    console.log(entry);
-                    var ul = document.getElementById("todos");
-                    var li = document.createElement("li");
-                    li.innerHTML = todos.text+" - "+todos.start+" - "+todos.end;
-                    ul.appendChild(li);
-                });
-            }
-        }
-        xmlHttp.open("GET", "/index/json", true);
-        xmlHttp.send();
+        var data = $.getJSON("/index/json", function(data) {
+
+            var tr;
+            $.each(data, function(i, val) {
+
+                console.log(i.name);
+                tr = $('<tr/>');
+                tr.append('<td>' + data.name + '</td>');
+                tr.append('<td>' + data.start + '</td>');
+                tr.append('<td>' + data.end + '</td>');
+            });
+
+
+        });
+
     }
     /*]]>*/
 </script>

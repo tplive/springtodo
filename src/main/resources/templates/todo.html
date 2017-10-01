@@ -7,13 +7,13 @@
 </head>
 <body>
 
-<h1>${todo}</h1>
+<h1 th:text="${todo.text}">Text</h1>
 <h3>Text</h3>
-<p>${todo.text}</p>
+<p th:text="${todo.text}">text</p>
 <h3>Start date</h3>
-<p>${todo.start}</p>
+<p th:text="${todo.start}"></p>
 <h3>End date</h3>
-<p>${todo.end}</p>
+<p th:text="${todo.end}"></p>
 <p><a href="list.do">Back</a></p>
 </body>
 </html>
