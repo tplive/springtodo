@@ -1,12 +1,13 @@
 package no.qvidahl.springtodo.model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Repository;
-
-
-import java.time.Clock;
 
 @Repository
 public class Todo {
+
+    @Id
+    public String id;
 
     private String text;
     private String start, end;
@@ -53,6 +54,14 @@ public class Todo {
 
     public Boolean getDone() {
         return done;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "Todo[id=%s, text=%s, start=%s, end=%s]",
+                id, text, start, end
+        );
     }
 
 
