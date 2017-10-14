@@ -1,7 +1,9 @@
 package no.qvidahl.springtodo;
 
 import no.qvidahl.springtodo.model.Todo;
+import no.qvidahl.springtodo.model.TodoRepository;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 import java.util.List;
 
-//@EnableWebMvc
 @Controller
 public final class TodoController {
 
@@ -20,8 +21,15 @@ public final class TodoController {
 
     private ArrayList<Todo> todoRepo = new ArrayList<>();
 
+    @Autowired
+    private TodoRepository todoRepository;
+
     @RequestMapping(path="/", method = RequestMethod.GET)
     public ModelAndView index(Model model) {
+
+        // Init new todoRepository with a few items
+        todoRepository.save(new Todo("Kjøp mer mat", "2017-10-12", "2017-10-12"));
+
 
         // Init todolist with a few items:
         if (todoRepo.size() == 0 ) {
