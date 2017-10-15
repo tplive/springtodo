@@ -16,8 +16,7 @@ public final class TodoController {
 
     private static final Logger log = Logger.getLogger(TodoController.class);
 
-    // Todolist, non-persistent.. ;)
-
+    List<Todo> todos;
 
     @Autowired
     private TodoRepository todoRepo;
@@ -25,7 +24,7 @@ public final class TodoController {
     @RequestMapping(path="/", method = RequestMethod.GET)
     public ModelAndView index(Model model) {
 
-        List<Todo> todos = todoRepo.findAll();
+        todos = todoRepo.findAll();
 
         model.addAttribute("newItem", new Todo());
         model.addAttribute("todoList", todos);
@@ -53,9 +52,12 @@ public final class TodoController {
     @RequestMapping(path = "/delete/", method = RequestMethod.GET)
     public String deleteTodo(@RequestParam("id") int id) {
 
-        //TODO New delete method
-        //log.info("Delete object " + todoRepo.get(id).getText() + "ID: " + id);
-        //todoRepo.remove(id);
+        log.info("Delete object " + todos.get(id).getText() + "ID: " + id);
+        //Slett fra databasen først:
+        todoRepo.delete(todos.get(id).getId());
+        //Slett fra listen etterpå:
+        todos.remove(id);
+
         return "redirect:/";
     }
 
