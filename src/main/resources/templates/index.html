@@ -40,6 +40,7 @@
             <th>End</th>
             <th>Done?</th>
             <th></th>
+            <th>Delete</th>
         </tr>
         <tr>
             <td><input type="text" id="textInput"/></td>
@@ -60,6 +61,7 @@
                      height="16" width="16"/>
             </td>
             <td><a th:href="@{/todo/(id=${i.index})}"></a></td>
+            <td><a th:href="@{/delete/(id=${i.index})}">Delete</a></td>
         </tr>
         </tbody>
     </table>
