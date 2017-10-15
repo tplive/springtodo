@@ -44,8 +44,7 @@
             <td><input type="date" id="startInput" th:value="${todo.start}"/></td>
             <td><input type="date" id="endInput" th:value="${todo.end}"/></td>
             <td>
-                <input type="checkbox" th:if="${todo.done} == true" th:checked="${true}" id="isDone" th:value="${todo.done}"/>
-                <input type="checkbox" th:if="${todo.done} == false" th:checked="${false}" id="isDone" th:value="${todo.done}"/>
+                <input type="checkbox" th:checked="${todo.done} ? true : false" id="isDone" />
             </td>
             <td>
                 <input type="submit" value="Oppdater" th:onclick="@{ update({id}) (id=${param.id}) }"/>

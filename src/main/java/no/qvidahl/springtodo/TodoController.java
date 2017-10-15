@@ -42,7 +42,7 @@ public final class TodoController {
         return "redirect:/";
     }
 
-    @RequestMapping(path = "/update/", method = RequestMethod.PUT)
+    @RequestMapping(path = "/update/", method = RequestMethod.POST)
     public String updateTodo(@RequestParam("id") int id, @ModelAttribute Todo item) {
 
 
@@ -57,6 +57,8 @@ public final class TodoController {
             itemToUpdate.setEnd(item.getEnd());
             itemToUpdate.setDone(item.isDone());
             todoRepo.save(itemToUpdate);
+
+            todos.set(id, item);
         }
 
         return "redirect:/";

@@ -56,7 +56,7 @@
             <td th:text="${item.start}">Item_name</td>
             <td th:text="${item.end}">Item_name</td>
             <td>
-                <img th:if="${item.done} != false"
+                <img th:if="${item.done} == true"
                      src="checked-checkbox-xxl.png"
                      height="16" width="16"/>
             </td>

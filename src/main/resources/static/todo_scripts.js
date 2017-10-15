@@ -52,15 +52,17 @@ function update(x) {
     var text = document.getElementById("textInput").value;
     var start = document.getElementById("startInput").value;
     var end = document.getElementById("endInput").value;
+    var done = document.getElementById("isDone").checked;
+    console.log("start: " + text + start + end + done + " :end");
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
             console.log();
         }
     }
-    xmlHttp.open("PUT", url, true);
+    xmlHttp.open("POST", url, true);
     xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xmlHttp.send("text=" + text + "&start=" + start + "&end=" + end);
+    xmlHttp.send("text=" + text + "&start=" + start + "&end=" + end + "&done=" + done);
     console.log("URL: " + url);
 }
 
