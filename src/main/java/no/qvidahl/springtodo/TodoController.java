@@ -88,7 +88,7 @@ public final class TodoController {
     @RequestMapping(path = "/index/json", method = RequestMethod.GET)
     public @ResponseBody List<Todo> json() {
 
-        return null; //todoRepo;
+        return todos;
     }
 
 
