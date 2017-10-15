@@ -21,7 +21,7 @@
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Total Todo</a>
+            <a class="navbar-brand" href="/">Total Todo</a>
         </div>
     </div>
 </div>
@@ -41,11 +41,10 @@
         </tr>
         <tr>
             <td><input type="text" id="textInput" th:value="${todo.text}"/></td>
-            <td><input type="date" id="startInput" th:value="${todo.start}"/></td>
-            <td><input type="date" id="endInput" th:value="${todo.end}"/></td>
+            <td><input type="date" id="startInp" th:value="${todo.start}"/></td>
+            <td><input type="date" id="endInp" th:value="${todo.end}"/></td>
             <td>
-                <input type="checkbox" th:if="${todo.done} == true" th:checked="${true}" id="isDone" th:value="${todo.done}"/>
-                <input type="checkbox" th:if="${todo.done} == false" th:checked="${false}" id="isDone" th:value="${todo.done}"/>
+                <input type="checkbox" th:checked="${todo.done} ? true : false" id="isDone" />
             </td>
             <td>
                 <input type="submit" value="Oppdater" th:onclick="@{ update({id}) (id=${param.id}) }"/>

@@ -14,6 +14,8 @@ function send() {
     xmlHttp.send("text=" + text + "&start=" + start + "&end=" + end);
 }
 
+
+
 function refreshList() {
     var data = $.getJSON("/index/json", function (data) {
 
@@ -50,17 +52,19 @@ function update(x) {
 
     var url = "/update/?id=" + x;
     var text = document.getElementById("textInput").value;
-    var start = document.getElementById("startInput").value;
-    var end = document.getElementById("endInput").value;
+    var start = document.getElementById("startInp").value;
+    var end = document.getElementById("endInp").value;
+    var done = document.getElementById("isDone").checked;
+    console.log("start: " + text + start + end + done + " :end");
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
             console.log();
         }
     }
-    xmlHttp.open("PUT", url, true);
+    xmlHttp.open("POST", url, true);
     xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xmlHttp.send("text=" + text + "&start=" + start + "&end=" + end);
+    xmlHttp.send("text=" + text + "&start=" + start + "&end=" + end + "&done=" + done);
     console.log("URL: " + url);
 }
 
