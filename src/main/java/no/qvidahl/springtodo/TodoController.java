@@ -45,8 +45,20 @@ public final class TodoController {
     @RequestMapping(path = "/update/", method = RequestMethod.PUT)
     public String updateTodo(@RequestParam("id") int id, @ModelAttribute Todo item) {
 
-        //TODO New Update method
-        //todoRepo.set(id, item);
+
+        Todo itemToUpdate = todoRepo.findOne(todos.get(id).getId());
+
+        if (itemToUpdate != null) {
+
+            log.info("Update object, db ID: " + itemToUpdate.getId());
+
+            itemToUpdate.setText(item.getText());
+            itemToUpdate.setStart(item.getStart());
+            itemToUpdate.setEnd(item.getEnd());
+            itemToUpdate.setDone(item.isDone());
+            todoRepo.save(itemToUpdate);
+        }
+
         return "redirect:/";
     }
     @RequestMapping(path = "/delete/", method = RequestMethod.GET)
@@ -64,10 +76,9 @@ public final class TodoController {
     @RequestMapping(path = "/todo/", method = RequestMethod.GET)
     public ModelAndView todo(@RequestParam("id") int id, Model model) {
 
-        //TODO New get single todo method
-        //model.addAttribute(todoRepo.get(id));
-        //Todo todo = todoRepo.get(id);
-        //model.addAttribute(todo);
+        model.addAttribute(todos.get(id));
+        Todo todo = todos.get(id);
+        model.addAttribute(todo);
         return new ModelAndView("todo", "item", model);
     }
 

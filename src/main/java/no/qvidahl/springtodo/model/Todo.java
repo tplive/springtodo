@@ -60,6 +60,10 @@ public class Todo {
         return done;
     }
 
+    public void setDone(Boolean done) {
+        this.done = done;
+    }
+
     @Override
     public String toString() {
         return String.format(
