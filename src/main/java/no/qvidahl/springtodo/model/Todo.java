@@ -24,6 +24,10 @@ public class Todo {
         this.done = false;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public String getText() {
         return text;
     }

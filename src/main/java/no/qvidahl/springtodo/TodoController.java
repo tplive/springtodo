@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -19,26 +18,17 @@ public final class TodoController {
 
     // Todolist, non-persistent.. ;)
 
-    private ArrayList<Todo> todoRepo = new ArrayList<>();
 
     @Autowired
-    private TodoRepository todoRepository;
+    private TodoRepository todoRepo;
 
     @RequestMapping(path="/", method = RequestMethod.GET)
     public ModelAndView index(Model model) {
 
-        // Init new todoRepository with a few items
-        todoRepository.save(new Todo("Kjøp mer mat", "2017-10-12", "2017-10-12"));
-
-
-        // Init todolist with a few items:
-        if (todoRepo.size() == 0 ) {
-            todoRepo.add(new Todo("Kjøp brød", "2017-09-29", "2017-10-02"));
-            todoRepo.add(new Todo("Kjøp melk", "2017-10-01", "2017-10-05"));
-        }
+        List<Todo> todos = todoRepo.findAll();
 
         model.addAttribute("newItem", new Todo());
-        model.addAttribute("todoList", todoRepo);
+        model.addAttribute("todoList", todos);
         return new ModelAndView("index", "todos", model);
     }
 
@@ -47,7 +37,7 @@ public final class TodoController {
 
         Todo todo = new Todo(item.getText(), item.getStart(), item.getEnd());
         log.info(String.format("Ny todo: %s, %s - %s", item.getText(), item.getStart(), item.getEnd()));
-        todoRepo.add(todo);
+        todoRepo.save(todo);
 
         // Redirect to root view where we show the updated list
         return "redirect:/";
@@ -56,23 +46,26 @@ public final class TodoController {
     @RequestMapping(path = "/update/", method = RequestMethod.PUT)
     public String updateTodo(@RequestParam("id") int id, @ModelAttribute Todo item) {
 
-        todoRepo.set(id, item);
+        //TODO New Update method
+        //todoRepo.set(id, item);
         return "redirect:/";
     }
     @RequestMapping(path = "/delete/", method = RequestMethod.GET)
     public String deleteTodo(@RequestParam("id") int id) {
 
-        log.info("Delete object " + todoRepo.get(id).getText() + "ID: " + id);
-        todoRepo.remove(id);
+        //TODO New delete method
+        //log.info("Delete object " + todoRepo.get(id).getText() + "ID: " + id);
+        //todoRepo.remove(id);
         return "redirect:/";
     }
 
     @RequestMapping(path = "/todo/", method = RequestMethod.GET)
     public ModelAndView todo(@RequestParam("id") int id, Model model) {
 
-        model.addAttribute(todoRepo.get(id));
-        Todo todo = todoRepo.get(id);
-        model.addAttribute(todo);
+        //TODO New get single todo method
+        //model.addAttribute(todoRepo.get(id));
+        //Todo todo = todoRepo.get(id);
+        //model.addAttribute(todo);
         return new ModelAndView("todo", "item", model);
     }
 
@@ -80,7 +73,7 @@ public final class TodoController {
     @RequestMapping(path = "/index/json", method = RequestMethod.GET)
     public @ResponseBody List<Todo> json() {
 
-        return todoRepo;
+        return null; //todoRepo;
     }
 
 
