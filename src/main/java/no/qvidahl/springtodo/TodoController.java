@@ -80,7 +80,8 @@ public final class TodoController {
 
         model.addAttribute(todos.get(id));
         Todo todo = todos.get(id);
-        model.addAttribute(todo);
+        log.info("Todo start: " + todo.getStart());
+        //model.addAttribute(todo);
         return new ModelAndView("todo", "item", model);
     }
 
