@@ -24,7 +24,9 @@ public final class TodoController {
     @RequestMapping(path="/", method = RequestMethod.GET)
     public ModelAndView index(Model model) {
 
-        todos = todoRepo.findAll();
+        todos = todoRepo.findAllByOrderBySortIdxAsc();
+
+        updateSortIdx();
 
         model.addAttribute("newItem", new Todo());
         model.addAttribute("todoList", todos);
@@ -37,6 +39,7 @@ public final class TodoController {
         Todo todo = new Todo(item.getText(), item.getStart(), item.getEnd());
         log.info(String.format("Ny todo: %s, %s - %s", item.getText(), item.getStart(), item.getEnd()));
         todoRepo.save(todo);
+        todos.add(todo);
 
         // Redirect to root view where we show the updated list
         return "redirect:/";
@@ -92,5 +95,16 @@ public final class TodoController {
         return todos;
     }
 
+
+    private void updateSortIdx() {
+
+        for (int i = 0; i < todos.size(); i++) {
+            log.info("Updating index for " + todos.get(i).getId());
+
+            todos.get(i).setSortIdx(i);
+        }
+
+        todoRepo.save(todos);
+    }
 
 }

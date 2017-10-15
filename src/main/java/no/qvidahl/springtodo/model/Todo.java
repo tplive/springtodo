@@ -12,6 +12,7 @@ public class Todo {
     private String text;
     private String start, end;
     private Boolean done;
+    private int sortIdx;
 
 
     public Todo() {
@@ -26,6 +27,14 @@ public class Todo {
 
     public String getId() {
         return id;
+    }
+
+    public int getSortIdx() {
+        return sortIdx;
+    }
+
+    public void setSortIdx(int sortIdx) {
+        this.sortIdx = sortIdx;
     }
 
     public String getText() {
