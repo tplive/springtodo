@@ -19,7 +19,16 @@
 
     <script>
         $(function() {
-            $("tbody.sortable" ).sortable();
+            $("tbody.sortable" ).sortable({
+                update: function (event, ui) {
+                    var data = $(this).sortable('serialize');
+                    $.ajax({
+                        type: 'GET',
+                        url: '/sort/?' + data
+                    });
+                }
+            });
+            $("tbody.sortable").disableSelection();
         });
     </script>
 

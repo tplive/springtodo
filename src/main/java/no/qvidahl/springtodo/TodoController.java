@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -46,7 +47,9 @@ public final class TodoController {
     }
 
     @RequestMapping(path = "/update/", method = RequestMethod.POST)
-    public String updateTodo(@RequestParam("id") int id, @ModelAttribute Todo item) {
+    public String updateTodo(
+            @RequestParam("id") int id,
+            @ModelAttribute Todo item) {
 
 
         Todo itemToUpdate = todoRepo.findOne(todos.get(id).getId());
@@ -95,6 +98,14 @@ public final class TodoController {
         return todos;
     }
 
+    @RequestMapping(path = "/sort/{idx}", method = RequestMethod.GET)
+    public String saveOrder(HttpServletRequest request,
+                                  @RequestParam("idx[]") String data) throws Exception {
+
+        updateSortIdx();
+
+        return "redirect:/";
+        }
 
     private void updateSortIdx() {
 
