@@ -40,7 +40,7 @@
 
                 $.ajax({
                     type: 'GET',
-                    url: '/sort/?' + s
+                    url: '/sort/?data=' + s
                 });
             };
         });
@@ -82,7 +82,7 @@
         </tr>
         </thead>
         <tbody class="sortable">
-        <tr th:id="'sortid_' + ${i.index}" class="items" th:each="item,i : *{todoList}">
+        <tr th:id="${i.index}" class="items" th:each="item,i : *{todoList}">
             <td th:text="${item.text}">Item_name</td>
             <td th:text="${item.start}">Item_name</td>
             <td th:text="${item.end}">Item_name</td>

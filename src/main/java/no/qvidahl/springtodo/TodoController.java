@@ -27,7 +27,7 @@ public final class TodoController {
 
         todos = todoRepo.findAllByOrderBySortIdxAsc();
 
-        updateSortIdx();
+        //updateSortIdx();
 
         model.addAttribute("newItem", new Todo());
         model.addAttribute("todoList", todos);
@@ -98,9 +98,16 @@ public final class TodoController {
         return todos;
     }
 
-    @RequestMapping(path = "/sort/{idx}", method = RequestMethod.GET)
+    @RequestMapping(path = "/sort/", method = RequestMethod.GET)
     public String saveOrder(HttpServletRequest request,
-                                  @RequestParam("idx[]") String data) throws Exception {
+                                  @RequestParam("data") String data) throws Exception {
+
+        String[] items = data.split(",");
+        for (String item : items) {
+
+            String[] reorder = item.split(":");
+            log.info("was: " + reorder[0] + " now: " + reorder[1]);
+        }
 
         updateSortIdx();
 
