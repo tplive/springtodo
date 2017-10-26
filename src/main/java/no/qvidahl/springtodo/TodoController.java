@@ -36,9 +36,11 @@ public final class TodoController {
     public String addTodo(@ModelAttribute Todo item) {
 
         Todo todo = new Todo(item.getText(), item.getStart(), item.getEnd());
-        log.info(String.format("Ny todo: %s, %s - %s", item.getText(), item.getStart(), item.getEnd()));
+        log.info(String.format(item.toString()));
+        updateDbSortOrder();
         todoRepo.save(todo);
-        todos.add(todo);
+        getSortedData();
+
 
         // Redirect to root view where we show the updated list
         return "redirect:/";
@@ -118,6 +120,14 @@ public final class TodoController {
             //log.info(todos.get(Integer.parseInt(items[idx])).getText() + " : new index: " + idx);
         }
         todoRepo.save(todos);
+    }
+
+    private void updateDbSortOrder() {
+
+        for(int j = 0; j < todos.size(); j++) {
+            todos.get(j).setSortIdx(j);
+            todoRepo.save(todos);
+        }
     }
 
 }
