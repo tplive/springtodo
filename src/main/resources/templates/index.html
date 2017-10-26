@@ -20,15 +20,29 @@
     <script>
         $(function() {
             $("tbody.sortable" ).sortable({
-                update: function (event, ui) {
-                    var data = $(this).sortable('serialize');
-                    $.ajax({
-                        type: 'GET',
-                        url: '/sort/?' + data
-                    });
+                update: function () {
+
+                    save_new_order()
+
+
                 }
             });
             $("tbody.sortable").disableSelection();
+
+            function save_new_order() {
+
+                var arr = [];
+                $("tbody.sortable").children().each(function (i) {
+                    arr.push($(this).attr('id') + ':' + i);
+                });
+                var s = arr.join(',');
+                alert(s);
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/sort/?' + s
+                });
+            };
         });
     </script>
 
@@ -68,7 +82,7 @@
         </tr>
         </thead>
         <tbody class="sortable">
-        <tr class="items" th:each="item,i : *{todoList}">
+        <tr th:id="'sortid_' + ${i.index}" class="items" th:each="item,i : *{todoList}">
             <td th:text="${item.text}">Item_name</td>
             <td th:text="${item.start}">Item_name</td>
             <td th:text="${item.end}">Item_name</td>
