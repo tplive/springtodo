@@ -25,9 +25,7 @@ public final class TodoController {
     @RequestMapping(path="/", method = RequestMethod.GET)
     public ModelAndView index(Model model) {
 
-        todos = todoRepo.findAllByOrderBySortIdxAsc();
-
-        //updateSortIdx();
+        getSortedData();
 
         model.addAttribute("newItem", new Todo());
         model.addAttribute("todoList", todos);
@@ -102,26 +100,23 @@ public final class TodoController {
     public String saveOrder(HttpServletRequest request,
                                   @RequestParam("data") String data) throws Exception {
 
-        String[] items = data.split(",");
-        for (String item : items) {
-
-            String[] reorder = item.split(":");
-            log.info("was: " + reorder[0] + " now: " + reorder[1]);
-        }
-
-        updateSortIdx();
+        newSortIdx(data.split(","));
 
         return "redirect:/";
         }
 
-    private void updateSortIdx() {
+    private void getSortedData() {
 
-        for (int i = 0; i < todos.size(); i++) {
-            log.info("Updating index for " + todos.get(i).getId());
+        todos = todoRepo.findAllByOrderBySortIdxAsc();
+    }
 
-            todos.get(i).setSortIdx(i);
+    private void newSortIdx(String[] items) {
+
+        for (int idx = 0; idx < todos.size(); idx++) {
+
+            todos.get(Integer.parseInt(items[idx])).setSortIdx(idx);
+            //log.info(todos.get(Integer.parseInt(items[idx])).getText() + " : new index: " + idx);
         }
-
         todoRepo.save(todos);
     }
 

@@ -33,11 +33,9 @@
 
                 var arr = [];
                 $("tbody.sortable").children().each(function (i) {
-                    arr.push($(this).attr('id') + ':' + i);
+                    arr.push($(this).attr('id'));
                 });
                 var s = arr.join(',');
-                alert(s);
-
                 $.ajax({
                     type: 'GET',
                     url: '/sort/?data=' + s
