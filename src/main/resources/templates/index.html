@@ -8,12 +8,41 @@
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
           crossorigin="anonymous"/>
 
-    <!-- Optional theme -->
-    <link rel="stylesheet"
-          href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
-          crossorigin="anonymous"/>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous">
+    </script>
 
+    <!-- Load jQuery UI last -->
+    <link href = "https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css" rel = "stylesheet"/>
+    <script src = "https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+        $(function() {
+            $("tbody.sortable" ).sortable({
+                update: function () {
+
+                    save_new_order()
+
+
+                }
+            });
+            $("tbody.sortable").disableSelection();
+
+            function save_new_order() {
+
+                var arr = [];
+                $("tbody.sortable").children().each(function (i) {
+                    arr.push($(this).attr('id'));
+                });
+                var s = arr.join(',');
+                $.ajax({
+                    type: 'GET',
+                    url: '/sort/?data=' + s
+                });
+            };
+        });
+    </script>
 
     <title>Total Todos</title>
 
@@ -50,8 +79,8 @@
             <td></td>
         </tr>
         </thead>
-        <tbody>
-        <tr class="items" th:each="item,i : *{todoList}">
+        <tbody class="sortable">
+        <tr th:id="${i.index}" class="items" th:each="item,i : *{todoList}">
             <td th:text="${item.text}">Item_name</td>
             <td th:text="${item.start}">Item_name</td>
             <td th:text="${item.end}">Item_name</td>
@@ -68,16 +97,6 @@
     <p><a href="/">Refresh list</a></p>
 
 </div>
-<!-- Load jQuery before Bootstrap -->
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"
-        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-        crossorigin="anonymous"></script>
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
-
 <script type="text/javascript" th:src="@{/todo_scripts.js}"/>
 </body>
 

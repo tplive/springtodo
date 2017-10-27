@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -24,7 +25,7 @@ public final class TodoController {
     @RequestMapping(path="/", method = RequestMethod.GET)
     public ModelAndView index(Model model) {
 
-        todos = todoRepo.findAll();
+        getSortedData();
 
         model.addAttribute("newItem", new Todo());
         model.addAttribute("todoList", todos);
@@ -35,15 +36,20 @@ public final class TodoController {
     public String addTodo(@ModelAttribute Todo item) {
 
         Todo todo = new Todo(item.getText(), item.getStart(), item.getEnd());
-        log.info(String.format("Ny todo: %s, %s - %s", item.getText(), item.getStart(), item.getEnd()));
+        log.info(String.format(item.toString()));
+        updateDbSortOrder();
         todoRepo.save(todo);
+        getSortedData();
+
 
         // Redirect to root view where we show the updated list
         return "redirect:/";
     }
 
     @RequestMapping(path = "/update/", method = RequestMethod.POST)
-    public String updateTodo(@RequestParam("id") int id, @ModelAttribute Todo item) {
+    public String updateTodo(
+            @RequestParam("id") int id,
+            @ModelAttribute Todo item) {
 
 
         Todo itemToUpdate = todoRepo.findOne(todos.get(id).getId());
@@ -92,5 +98,36 @@ public final class TodoController {
         return todos;
     }
 
+    @RequestMapping(path = "/sort/", method = RequestMethod.GET)
+    public String saveOrder(HttpServletRequest request,
+                                  @RequestParam("data") String data) throws Exception {
+
+        newSortIdx(data.split(","));
+
+        return "redirect:/";
+        }
+
+    private void getSortedData() {
+
+        todos = todoRepo.findAllByOrderBySortIdxAsc();
+    }
+
+    private void newSortIdx(String[] items) {
+
+        for (int idx = 0; idx < todos.size(); idx++) {
+
+            todos.get(Integer.parseInt(items[idx])).setSortIdx(idx);
+            //log.info(todos.get(Integer.parseInt(items[idx])).getText() + " : new index: " + idx);
+        }
+        todoRepo.save(todos);
+    }
+
+    private void updateDbSortOrder() {
+
+        for(int j = 0; j < todos.size(); j++) {
+            todos.get(j).setSortIdx(j);
+            todoRepo.save(todos);
+        }
+    }
 
 }
