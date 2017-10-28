@@ -1,5 +1,7 @@
 package no.qvidahl.springtodo;
 
+import no.qvidahl.springtodo.model.Bruker;
+import no.qvidahl.springtodo.model.BrukerRepository;
 import no.qvidahl.springtodo.model.Todo;
 import no.qvidahl.springtodo.model.TodoRepository;
 import org.apache.log4j.Logger;
@@ -19,17 +21,34 @@ public final class TodoController {
 
     List<Todo> todos;
 
+
     @Autowired
     private TodoRepository todoRepo;
 
+    @Autowired
+    private BrukerRepository brukerRepository;
+
+
     @RequestMapping(path="/", method = RequestMethod.GET)
     public ModelAndView index(Model model) {
+
+        if (brukerRepository.findByUsername("user") == null) {
+
+            Bruker user = new Bruker("user", "password");
+            brukerRepository.save(user);
+        }
 
         getSortedData();
 
         model.addAttribute("newItem", new Todo());
         model.addAttribute("todoList", todos);
         return new ModelAndView("index", "todos", model);
+    }
+
+    @RequestMapping(path="/login")
+    public String login() {
+
+        return "login";
     }
 
     @RequestMapping(path = "/save", method = RequestMethod.POST)
