@@ -6,6 +6,7 @@ import no.qvidahl.springtodo.model.Todo;
 import no.qvidahl.springtodo.model.TodoRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.SpringVersion;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,8 @@ public final class TodoController {
 
     @RequestMapping(path="/", method = RequestMethod.GET)
     public ModelAndView index(Model model) {
+
+        log.info("Spring version is: " + SpringVersion.getVersion());
 
         if (brukerRepository.findByUsername("user") == null) {
 
