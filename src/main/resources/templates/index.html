@@ -86,7 +86,7 @@
             <td th:text="${item.end}">Item_name</td>
             <td>
                 <img th:if="${item.done} == true"
-                     src="checked-checkbox-xxl.png"
+                     src="images/checked-checkbox-xxl.png"
                      height="16" width="16"/>
             </td>
             <td><a th:href="@{/todo/(id=${i.index})}"></a></td>
@@ -97,7 +97,13 @@
     <p><a href="/">Refresh list</a></p>
 
 </div>
-<script type="application/javascript" th:src="@{/todo_scripts.js}"/>
+<!-- Får feilmelding i Chrome:
+Refused to execute script from 'http://localhost:8080/todo_scripts.js' because its MIME type ('text/html') is not executable, and strict MIME type checking is enabled.
+
+når Spring Security er aktivert, og får ikke lastet JS. Kom derfor ikke i mål med utvikling av innlogget-funksjonalitet,
+siden siden er ganske avhengig av fungerende JS...
+-->
+<script type="text/javascript" th:src="@{/js/todo_scripts.js}"></script>
 </body>
 
 </html>
