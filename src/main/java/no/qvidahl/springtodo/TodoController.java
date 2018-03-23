@@ -54,6 +54,11 @@ public final class TodoController {
         return "login";
     }
 
+    @RequestMapping(path="/js")
+    public String js() {
+        return "todo_scripts.js";
+    }
+
     @RequestMapping(path = "/save", method = RequestMethod.POST)
     public String addTodo(@ModelAttribute Todo item) {
 
